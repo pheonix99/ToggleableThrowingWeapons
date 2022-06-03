@@ -1,0 +1,12 @@
+{
+  "Id": "ToggleableThrowingWeapons",
+  "DisplayName": "Toggleable Throwing Weapons",
+  "Author": "pheonix99",
+  "Version": "0.1.0",
+  "ManagerVersion": "0.21.3",
+  "AssemblyName": "ToggleableThrowingWeapons.dll",
+  "EntryMethod": "ToggleableThrowingWeapons.Main.Load",
+  "HomePage": "https://github.com/pheonix99/LevelableAivu/releases",
+  "Requirements": [ "TabletopTweaks-Core" ],
+  "LoadAfter": [ "TabletopTweaks-Core" ]
+}

@@ -1,0 +1,13 @@
+﻿{
+  "NewSettingsOffByDefault": false,
+  "Hotswapping": {
+    "DisableAll": false,
+    "Settings": {
+      "EnableHotswapping": {
+        "Enabled": true,
+        "Description" : "Enables hotswapping functions and all associated logic that actually changes things. Disable if things are breaking - doing so will block everything but blueprint creation, allowing you to play as if the mod was not installed."
+
+      }
+    }
+  }
+}

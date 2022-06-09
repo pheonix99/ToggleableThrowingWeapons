@@ -8,6 +8,7 @@
     <ProjectGuid>{5412D361-B939-40D8-9B19-200F2BB3BA22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <LangVersion>latest</LangVersion>
     <RootNamespace>ToggleableThrowingWeapons</RootNamespace>
     <AssemblyName>ToggleableThrowingWeapons</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -24,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <WrathPath Condition=" '$(WrathPath)' == '' ">C:\Program Files (x86)\Steam\steamapps\common\Pathfinder Second Adventure</WrathPath>
@@ -50,6 +52,12 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.2.2.1\lib\net472\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp_public">
+      <HintPath>..\lib\Assembly-CSharp_public.dll</HintPath>
+    </Reference>
+    <Reference Include="BlueprintCore, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WW-Blueprint-Core.2.0.4\lib\net472\BlueprintCore.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
@@ -101,11 +109,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Build.cs" />
+    <Compile Include="Component\AddFactOnlyParty.cs" />
+    <Compile Include="Component\EnableThrownMode.cs" />
+    <Compile Include="Component\ThrownCrossrefComponent.cs" />
+    <Compile Include="Component\ThrownCrossrefTypeComponent.cs" />
+    <Compile Include="Component\ThrownOnlyStrToDamage.cs" />
+    <Compile Include="Config\Settings.cs" />
+    <Compile Include="Content\BaseWeapons.cs" />
+    <Compile Include="Content\MatchHambeardWeapons.cs" />
+    <Compile Include="Content\ModeSwitching.cs" />
+    <Compile Include="Content\PairCreation.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="ModLogic\ModContextTTW.cs" />
+    <Compile Include="Patch\OverrideItemEntityBlueprintHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\AddToRoot.cs" />
+    <Compile Include="UMMSettingsUI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="BlueprintCore\changes.md" />
+    <None Include="BlueprintCore\LICENSE" />
+    <None Include="BlueprintCore\README.md" />
+    <EmbeddedResource Include="Config\Blueprints.json" />
+    <EmbeddedResource Include="Config\Settings.json" />
+    <None Include="Info.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>(robocopy "C:\Users\Alex Walters\source\repos\ToggleableThrowingWeapons\ToggleableThrowingWeapons\bin\Debug" "%25WrathPath%25\Mods\ToggleableThrowingWeapons\ " /s /e )^&amp; IF %25ERRORLEVEL%25 LEQ 1 exit 0</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Content\PairCreation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

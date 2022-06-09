@@ -216,6 +216,7 @@ namespace ToggleableThrowingWeapons.Content
                 var paired = Main.TTWContext.Blueprints.GetDerivedGUID(derivedGuidCode, master.Value, unpairedWeapon.AssetGuid);
                 var newBP = Helpers.CreateCopy<BlueprintItemWeapon>(unpairedWeapon, x =>
                 {
+                    
                     x.name = derivedGuidCode;
                     x.AssetGuid = paired;
                     x.m_Type = otherType;
@@ -225,6 +226,7 @@ namespace ToggleableThrowingWeapons.Content
 
                     });*/
                 });
+                
                 Main.TTWContext.Logger.LogPatch($"Created {otherType.NameSafe()} from {unpairedWeapon.Name}", newBP);
 
                 BlueprintTools.AddBlueprint(Main.TTWContext, newBP);

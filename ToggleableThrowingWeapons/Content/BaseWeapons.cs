@@ -153,6 +153,7 @@ namespace ToggleableThrowingWeapons.Content
             var thrownDLC2Daggers = Helpers.CreateCopy<BlueprintWeaponType>(BlueprintTool.Get<BlueprintWeaponType>("DLC2Dagger"), x =>
             {
                 x.name = "TTWThrownDLC2Dagger";
+                
                 x.AssetGuid = ThrownDLC2DaggerGuid;
                 x.m_AttackRange = new Kingmaker.Utility.Feet(20);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;

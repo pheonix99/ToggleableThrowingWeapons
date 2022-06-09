@@ -27,7 +27,7 @@ namespace ToggleableThrowingWeapons.Content
             Main.TTWContext.Logger.LogHeader("Creating Mode Switching Ability");
             var buffBP = Helpers.CreateBlueprint<BlueprintBuff>(Main.TTWContext, "ThrowWeaponsBuff");
 
-            var buffDesc = LocalizationTool.CreateString("ThrowWeaponsBuff.Desc", "Start Throwing Things At People");
+            var buffDesc = LocalizationTool.CreateString("ThrowWeaponsBuff.Desc", "Use Daggers And Starknives As Ranged Weapons");
             var buffconfig = BuffConfigurator.For(buffBP).SetDisplayName(LocalizationTool.CreateString("ThrowWeaponsBuff.Name", "Throw Weapons")).SetDescription(buffDesc).SetDescriptionShort(buffDesc);
 
             buffconfig.AddComponent<EnableThrownMode>();

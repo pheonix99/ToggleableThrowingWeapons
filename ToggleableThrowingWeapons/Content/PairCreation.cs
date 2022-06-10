@@ -19,6 +19,7 @@ namespace ToggleableThrowingWeapons.Content
     {
         public static List<BlueprintItemWeaponReference> MatchedMelee = new();
         public static List<BlueprintItemWeaponReference> MatchedThrown = new();
+        public static List<BlueprintItemWeaponReference> Matched = new();
         public static List<BlueprintItemWeaponReference> ToMatchViaType = new();
 
         public static string[] DaggerGuids = new string[]
@@ -137,7 +138,7 @@ namespace ToggleableThrowingWeapons.Content
 
         };
 
-        public static void AttachComponentsToPair(string melee, string thrown)
+        private static void AttachComponentsToPair(string melee, string thrown)
         {
             if (MatchedMelee.Any(x => x.deserializedGuid == melee) || MatchedThrown.Any(x => x.deserializedGuid == thrown))
             {
@@ -145,12 +146,14 @@ namespace ToggleableThrowingWeapons.Content
                 return;
             }
             
+
             var meleeWep = ItemWeaponConfigurator.For(melee).AddComponent<ThrownCrossrefComponent>(x => x.m_OtherForm = BlueprintTool.GetRef<BlueprintItemWeaponReference>(thrown)).Configure();
             
             var thrownWep = ItemWeaponConfigurator.For(thrown).AddComponent<ThrownCrossrefComponent>(x => x.m_OtherForm = BlueprintTool.GetRef<BlueprintItemWeaponReference>(melee)).Configure();
             
             PairCreation.MatchedMelee.Add(meleeWep.ToReference<BlueprintItemWeaponReference>());
             PairCreation.MatchedThrown.Add(thrownWep.ToReference<BlueprintItemWeaponReference>());
+            
             Main.TTWContext.Logger.LogPatch("Paired With Matching Thrown", meleeWep);
             Main.TTWContext.Logger.LogPatch("Paired With Matching Melee", thrownWep);
         }
@@ -178,7 +181,7 @@ namespace ToggleableThrowingWeapons.Content
 
         public static void CreatePartner(BlueprintItemWeapon unpairedWeapon)
         {
-            if (MatchedMelee.Any(x => x.deserializedGuid == unpairedWeapon.AssetGuidThreadSafe) || MatchedThrown.Any(x => x.deserializedGuid == unpairedWeapon.AssetGuidThreadSafe))
+            if (MatchedMelee.Any(x => x.deserializedGuid == unpairedWeapon.AssetGuidThreadSafe) || MatchedThrown.Any(x => x.deserializedGuid == unpairedWeapon.AssetGuidThreadSafe || Matched.Any(x=>x.deserializedGuid == unpairedWeapon.AssetGuidThreadSafe)))
             {
                 return;
             }
@@ -187,6 +190,7 @@ namespace ToggleableThrowingWeapons.Content
             {
                 return;
             }
+            Matched.Add(unpairedWeapon.ToReference<BlueprintItemWeaponReference>());
             Main.TTWContext.Logger.LogPatch("Patching toggle-version of", unpairedWeapon);
             BlueprintGuid? master = null;
             if (unpairedWeapon.Type.AssetGuidThreadSafe == "07cc1a7fceaee5b42b3e43da960fe76d")//Base Game Dagger
@@ -220,23 +224,14 @@ namespace ToggleableThrowingWeapons.Content
                     x.name = derivedGuidCode;
                     x.AssetGuid = paired;
                     x.m_Type = otherType;
-                    /*x.AddComponent<ThrownCrossrefComponent>(y =>
-                    {
-                        y.m_OtherForm = unpairedWeapon.ToReference<BlueprintItemWeaponReference>();
-
-                    });*/
+                    
                 });
                 
                 Main.TTWContext.Logger.LogPatch($"Created {otherType.NameSafe()} from {unpairedWeapon.Name}", newBP);
 
                 BlueprintTools.AddBlueprint(Main.TTWContext, newBP);
-                /*
-                 ItemWeaponConfigurator.For(unpairedWeapon).AddComponent<ThrownCrossrefComponent>(x =>
-                {
-                    x.m_OtherForm = newBP.ToReference<BlueprintItemWeaponReference>();
-                }).Configure();
-                */
-                if (unpairedWeapon.AttackType == Kingmaker.RuleSystem.AttackType.Melee || unpairedWeapon.AttackType == Kingmaker.RuleSystem.AttackType.Touch)
+                
+                if (unpairedWeapon.IsMelee)
                     AttachComponentsToPair(unpairedWeapon.AssetGuidThreadSafe, paired.ToString());
                 else
                     AttachComponentsToPair(paired.ToString(), unpairedWeapon.AssetGuidThreadSafe);

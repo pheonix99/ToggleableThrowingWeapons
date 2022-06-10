@@ -35,12 +35,23 @@ namespace ToggleableThrowingWeapons.Content
         
         private static void SimpleProcessHambeard(string guid)
         {
-            var tweaked = ItemWeaponConfigurator.For(guid).SetType("TTWThrownDagger").Configure();
-            PairCreation.CreatePartner(tweaked);
+            if (Main.TTWContext.Settings.Hotswapping.IsDisabled("EnableHotswapping"))
+            {
+                PairCreation.CreatePartner(BlueprintTool.Get<BlueprintItemWeapon>(guid));
+            }
+            else
+            {
+                var tweaked = ItemWeaponConfigurator.For(guid).SetType("Dagger").Configure();
+                PairCreation.CreatePartner(tweaked);
+            }
         }
-
+        public static bool matched = false;
         public static void MatchAll()
         {
+            if (matched)
+                return;
+            matched = true;
+
             Main.TTWContext.Logger.LogHeader("Matching Hambeard's Throwing Daggers");
             HandleHambeardWithExistingCounterpart("aa514dbf4c3d61f4e9c0738bd4d373cb", "97B6A7AAC76240ABBC2582B3D4018816");//Standard
             HandleHambeardWithExistingCounterpart("dfc92affae244554e8745a9ee9b7c520", "763DDAD0AE58487DBDD428F2D7FB4D82");//Masterwork
@@ -71,8 +82,16 @@ namespace ToggleableThrowingWeapons.Content
             HandleHambeardWithExistingCounterpart("08d4333b9b4a64e439c94765ee1cb5f1", "94D00BA9499142188AC024C90E3941D0");//Keen Plus 1
             foreach(string s in HambeardNewWeaponGUIDs)
             {
-                var tweaked = ItemWeaponConfigurator.For(s).SetType("TTWThrownDagger").Configure();
-                PairCreation.CreatePartner(tweaked);
+
+                if (Main.TTWContext.Settings.Hotswapping.IsDisabled("EnableHotswapping"))
+                {
+                    PairCreation.CreatePartner(BlueprintTool.Get<BlueprintItemWeapon>(s));
+                }
+                else
+                {
+                    var tweaked = ItemWeaponConfigurator.For(s).SetType("Dagger").Configure();
+                    PairCreation.CreatePartner(tweaked);
+                }
             }   
         }
 

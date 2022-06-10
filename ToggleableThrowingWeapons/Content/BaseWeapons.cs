@@ -36,7 +36,7 @@ namespace ToggleableThrowingWeapons.Content
             BlueprintTool.AddGuidsByName(("TTWThrownDLC2Dagger", ThrownDLC2DaggerGuid.ToString()));
             BlueprintTool.AddGuidsByName(("DLC2Dagger", "90ba10e82a7a4135bb380234a255f5ae"));
 
-            BlueprintTool.AddGuidsByName(("TTWThrownDagger", ThrownDaggerGuid.ToString()), ("StrengthToDMGEnchant", strengthGuid), ("Dagger", stockDaggerGuid), ("Starknife", "5a939137fc039084580725b2b0845c3f"), ("Dart", "f415ae950523a7843a74d7780dd551af"));
+            BlueprintTool.AddGuidsByName(("TTWThrownDagger", ThrownDaggerGuid.ToString()), ("Dagger", stockDaggerGuid), ("Starknife", "5a939137fc039084580725b2b0845c3f"), ("Dart", "f415ae950523a7843a74d7780dd551af"));
             var Starknife = BlueprintTool.Get<BlueprintWeaponType>("Starknife");
             var Dart = BlueprintTool.Get<BlueprintWeaponType>("Dart");
 
@@ -84,7 +84,7 @@ namespace ToggleableThrowingWeapons.Content
             });
             BlueprintTools.AddBlueprint(Main.TTWContext, throwingStar);
             Main.TTWContext.Logger.Log($"About To Set  Starknife Descriptions");
-            var thrownStarknifeConfig = WeaponTypeConfigurator.For(throwingStar).SetDefaultNameText(LocalizationTool.CreateString("ThrownStarknife.Name", "Thrown Starknife")).SetDescriptionText(LocalizationTool.CreateString("ThrownStarknife.Desc", "Thrown Starknife")).Configure();
+            var thrownStarknifeConfig = WeaponTypeConfigurator.For(throwingStar).SetDefaultNameText(LocalizationTool.CreateString("ThrownStarknife.Name", "Thrown Starknife")).AddToEnchantments("c4d213911e9616949937e1520c80aaf3").SetDescriptionText(LocalizationTool.CreateString("ThrownStarknife.Desc", "Thrown Starknife")).Configure();
 
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))
             {
@@ -98,7 +98,12 @@ namespace ToggleableThrowingWeapons.Content
 
 
             }
+            Main.TTWContext.Logger.Log($"About To Add Strength (thrown) to starknife");
 
+           
+            WeaponTypeConfigurator.For("5a939137fc039084580725b2b0845c3f").AddToEnchantments("c4d213911e9616949937e1520c80aaf3").Configure();
+
+            
 
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))
             {
@@ -126,9 +131,9 @@ namespace ToggleableThrowingWeapons.Content
                 x.m_FighterGroupFlags = WeaponFighterGroupFlags.Thrown | WeaponFighterGroupFlags.BladesLight;
 
             });
-
+           
             BlueprintTools.AddBlueprint(Main.TTWContext, thrownDaggers);
-            var throwndaggerConfig = WeaponTypeConfigurator.For(thrownDaggers).SetDefaultNameText(LocalizationTool.CreateString("TTWThrownDagger.Name", "Thrown Dagger"));
+            var throwndaggerConfig = WeaponTypeConfigurator.For(thrownDaggers).AddToEnchantments("c4d213911e9616949937e1520c80aaf3").SetDefaultNameText(LocalizationTool.CreateString("TTWThrownDagger.Name", "Thrown Dagger"));
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))
             {
                 throwndaggerConfig.AddComponent<ThrownCrossrefTypeComponent>(x =>
@@ -144,7 +149,7 @@ namespace ToggleableThrowingWeapons.Content
             var finishedDagger = throwndaggerConfig.Configure();
            
             Main.TTWContext.Logger.LogPatch(finishedDagger);
-
+            WeaponTypeConfigurator.For("Dagger").AddToEnchantments("c4d213911e9616949937e1520c80aaf3").Configure();
 
 
             Main.TTWContext.Blueprints.GetDerivedMaster("DaggerMasterId");
@@ -162,7 +167,7 @@ namespace ToggleableThrowingWeapons.Content
 
             });
             BlueprintTools.AddBlueprint(Main.TTWContext, thrownDLC2Daggers);
-            var thrownDLC2daggerConfig = WeaponTypeConfigurator.For(thrownDLC2Daggers).SetDefaultNameText(LocalizationTool.CreateString("TTWThrownDLC2Dagger.Name", "Thrown Dagger"));
+            var thrownDLC2daggerConfig = WeaponTypeConfigurator.For(thrownDLC2Daggers).AddToEnchantments("c4d213911e9616949937e1520c80aaf3").SetDefaultNameText(LocalizationTool.CreateString("TTWThrownDLC2Dagger.Name", "Thrown Dagger"));
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))
             {
                 thrownDLC2daggerConfig.AddComponent<ThrownCrossrefTypeComponent>(x =>
@@ -175,7 +180,7 @@ namespace ToggleableThrowingWeapons.Content
                     x.m_OtherForm = BlueprintTool.GetRef<BlueprintWeaponTypeReference>("TTWThrownDLC2Dagger");
                 }).Configure();
             }
-
+            WeaponTypeConfigurator.For("DLC2Dagger").AddToEnchantments("c4d213911e9616949937e1520c80aaf3").Configure();
             Main.TTWContext.Blueprints.GetDerivedMaster("ThrownDLC2DaggerMasterId");
             var finishedDLC2Dagger = thrownDLC2daggerConfig.Configure();
 

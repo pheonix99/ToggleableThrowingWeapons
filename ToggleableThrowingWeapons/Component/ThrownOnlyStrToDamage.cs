@@ -18,6 +18,7 @@ namespace ToggleableThrowingWeapons.Component
 			ModifiableValueAttributeStat modifiableValueAttributeStat = evt.Initiator.Descriptor.Stats.GetStat(this.Stat) as ModifiableValueAttributeStat;
 			if (evt.Weapon == base.Owner && modifiableValueAttributeStat != null && evt.Weapon.Blueprint.IsRanged)
 			{
+				
 				evt.OverrideDamageBonusStat(this.Stat);
 				evt.OverrideDamageBonusStatMultiplier(this.Multiplier);
 			}

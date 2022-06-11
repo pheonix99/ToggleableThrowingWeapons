@@ -44,7 +44,7 @@ namespace ToggleableThrowingWeapons.Content
             {
                 x.Stat = Kingmaker.EntitySystem.Stats.StatType.Strength;
                 x.Multiplier = 1;
-            });
+            }).Configure();
 
             var throwingStar = Helpers.CreateCopy<BlueprintWeaponType>(BlueprintTool.Get<BlueprintWeaponType>("Starknife"), x =>
             {
@@ -127,7 +127,23 @@ namespace ToggleableThrowingWeapons.Content
                 x.AssetGuid = ThrownDaggerGuid;
                 x.m_AttackRange = new Kingmaker.Utility.Feet(20);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
-                x.m_VisualParameters = Dart.VisualParameters;
+                x.m_VisualParameters = new WeaponVisualParameters
+                {
+                    m_Projectiles = Dart.VisualParameters.Projectiles,
+                    m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.ThrownStraight,
+                    m_WeaponModel = new PrefabLink() { AssetId = "8a068458-1898-ee64-2aa771427d77f9ab" },
+                    m_WeaponSheathModelOverride = new PrefabLink() { AssetId = "544192df-823e-cd74-6a0fae1c1af7de16" },
+                    m_SoundSize = Kingmaker.Visual.Sound.WeaponSoundSizeType.Small,
+                    m_SoundType = Kingmaker.Visual.Sound.WeaponSoundType.PierceMetal,
+                    m_WhooshSound = "KnifeWoosh",
+
+                    m_MissSoundType = Kingmaker.Visual.Sound.WeaponMissSoundType.MediumMetal,
+                    m_EquipSound = "Weapons_1H_Slashing_Equip_Dagger",
+                    m_UnequipSound = "Weapons_1H_Slashing_Remove_Dagger",
+                    m_InventoryEquipSound = "SwordEquip",
+                    m_InventoryPutSound = "DaggerPut",
+                    m_InventoryTakeSound = "DaggerTake"
+                };
                 x.m_FighterGroupFlags = WeaponFighterGroupFlags.Thrown | WeaponFighterGroupFlags.BladesLight;
 
             });
@@ -162,10 +178,27 @@ namespace ToggleableThrowingWeapons.Content
                 x.AssetGuid = ThrownDLC2DaggerGuid;
                 x.m_AttackRange = new Kingmaker.Utility.Feet(20);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
-                x.m_VisualParameters = Dart.VisualParameters;
+                x.m_VisualParameters = new WeaponVisualParameters
+                {
+                    m_Projectiles = Dart.VisualParameters.Projectiles,
+                    m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.ThrownStraight,
+                    m_WeaponModel = new PrefabLink() { AssetId = "c859a560-b553-8854-f8913486e29efc07" },
+                    m_WeaponSheathModelOverride = new PrefabLink() { AssetId = "3c601278-3bba-9b54-592eb941bd30702e" },
+                    m_SoundSize = Kingmaker.Visual.Sound.WeaponSoundSizeType.Small,
+                    m_SoundType = Kingmaker.Visual.Sound.WeaponSoundType.PierceMetal,
+                    m_WhooshSound = "KnifeWoosh",
+
+                    m_MissSoundType = Kingmaker.Visual.Sound.WeaponMissSoundType.MediumMetal,
+                    m_EquipSound = "Weapons_1H_Slashing_Equip_Dagger",
+                    m_UnequipSound = "Weapons_1H_Slashing_Remove_Dagger",
+                    m_InventoryEquipSound = "SwordEquip",
+                    m_InventoryPutSound = "DaggerPut",
+                    m_InventoryTakeSound = "DaggerTake"
+                };
                 x.m_FighterGroupFlags = WeaponFighterGroupFlags.Thrown | WeaponFighterGroupFlags.BladesLight;
 
             });
+            
             BlueprintTools.AddBlueprint(Main.TTWContext, thrownDLC2Daggers);
             var thrownDLC2daggerConfig = WeaponTypeConfigurator.For(thrownDLC2Daggers).AddToEnchantments("c4d213911e9616949937e1520c80aaf3").SetDefaultNameText(LocalizationTool.CreateString("TTWThrownDLC2Dagger.Name", "Thrown Dagger"));
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))

@@ -14,3 +14,6 @@ The item names don't change by mode. I'll get to this later.
 
 #Credits
 Thanks to Truinto for the AddFactOnlyParty code.
+
+#Changelog
+1.1: Fixed dex to melee damage cutting out, fixed some graphical jank

@@ -51,7 +51,7 @@ namespace ToggleableThrowingWeapons.Content
                 x.AssetGuid = ThrownStarknifeGuid;
                 x.name = "ThrownStarknife";
 
-                x.m_AttackRange = new Kingmaker.Utility.Feet(20);
+                x.m_AttackRange = new Kingmaker.Utility.Feet(30);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
                 x.m_VisualParameters = new WeaponVisualParameters
                 {
@@ -125,7 +125,7 @@ namespace ToggleableThrowingWeapons.Content
             {
                 x.name = "TTWThrownDagger";
                 x.AssetGuid = ThrownDaggerGuid;
-                x.m_AttackRange = new Kingmaker.Utility.Feet(20);
+                x.m_AttackRange = new Kingmaker.Utility.Feet(30);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
                 x.m_VisualParameters = new WeaponVisualParameters
                 {
@@ -176,7 +176,7 @@ namespace ToggleableThrowingWeapons.Content
                 x.name = "TTWThrownDLC2Dagger";
                 
                 x.AssetGuid = ThrownDLC2DaggerGuid;
-                x.m_AttackRange = new Kingmaker.Utility.Feet(20);
+                x.m_AttackRange = new Kingmaker.Utility.Feet(30);
                 x.m_AttackType = Kingmaker.RuleSystem.AttackType.Ranged;
                 x.m_VisualParameters = new WeaponVisualParameters
                 {

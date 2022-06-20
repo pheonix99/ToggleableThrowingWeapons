@@ -120,10 +120,12 @@
     <Compile Include="Content\BaseWeapons.cs" />
     <Compile Include="Content\MatchHambeardWeapons.cs" />
     <Compile Include="Content\ModeSwitching.cs" />
+    <Compile Include="Content\NewFeats.cs" />
     <Compile Include="Content\PairCreation.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModLogic\ModContextTTW.cs" />
     <Compile Include="Patch\OverrideItemEntityBlueprintHook.cs" />
+    <Compile Include="Patch\PatchWeaponCategoryExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AddToRoot.cs" />
     <Compile Include="UMMSettingsUI.cs" />

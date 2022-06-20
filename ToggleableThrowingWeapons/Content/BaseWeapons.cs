@@ -5,6 +5,7 @@ using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Items.Weapons;
 using Kingmaker.Designers.Mechanics.WeaponEnchants;
+using Kingmaker.Enums;
 using Kingmaker.ResourceLinks;
 using System;
 using System.Collections.Generic;
@@ -113,7 +114,7 @@ namespace ToggleableThrowingWeapons.Content
                     x.m_OtherForm = BlueprintTool.GetRef<BlueprintWeaponTypeReference>("ThrownStarknife");
                 });
 
-
+                
             }
             
             Main.TTWContext.Blueprints.GetDerivedMaster("ThrownStarknifeMasterId");

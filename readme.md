@@ -16,4 +16,6 @@ The item names don't change by mode. I'll get to this later.
 Thanks to Truinto for the AddFactOnlyParty code.
 
 #Changelog
+1.2: Point Blank Master (and any other ranged-only paramaterized features added by mods) now apply to thrown daggers/starknives. Increased range to 30 feet. 
+
 1.1: Fixed dex to melee damage cutting out, fixed some graphical jank

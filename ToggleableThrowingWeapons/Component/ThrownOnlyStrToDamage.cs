@@ -15,12 +15,29 @@ namespace ToggleableThrowingWeapons.Component
 		// Token: 0x0600C1F7 RID: 49655 RVA: 0x00311EA0 File Offset: 0x003100A0
 		public void OnEventAboutToTrigger(RuleCalculateWeaponStats evt)
 		{
-			ModifiableValueAttributeStat modifiableValueAttributeStat = evt.Initiator.Descriptor.Stats.GetStat(this.Stat) as ModifiableValueAttributeStat;
-			if (evt.Weapon == base.Owner && modifiableValueAttributeStat != null && evt.Weapon.Blueprint.IsRanged)
+			if (evt.Weapon == null)
+				return;
+
+			ModifiableValueAttributeStat weaponmodifiableValueAttributeStat = evt.Initiator.Descriptor.Stats.GetStat(this.Stat) as ModifiableValueAttributeStat;
+			if (evt.Weapon != null && evt.Weapon == base.Owner && weaponmodifiableValueAttributeStat != null && evt.Weapon.Blueprint.IsRanged)
 			{
+				var dmgBonusStat = evt.DamageBonusStat;
+				if (dmgBonusStat != null)
+                {
+					ModifiableValueAttributeStat modifiableValueAttributeStat = Owner.Wielder.Stats.GetStat(dmgBonusStat.Value) as ModifiableValueAttributeStat;
+					if (modifiableValueAttributeStat.Bonus >= weaponmodifiableValueAttributeStat.Bonus)
+                    {
+						return;
+                    }
+					
+				}
+			
+				
 				
 				evt.OverrideDamageBonusStat(this.Stat);
-				evt.OverrideDamageBonusStatMultiplier(this.Multiplier);
+				
+				
+				
 			}
 		}
 
@@ -28,6 +45,8 @@ namespace ToggleableThrowingWeapons.Component
 		public void OnEventDidTrigger(RuleCalculateWeaponStats evt)
 		{
 		}
+
+		
 
 		// Token: 0x04007E90 RID: 32400
 		public StatType Stat;

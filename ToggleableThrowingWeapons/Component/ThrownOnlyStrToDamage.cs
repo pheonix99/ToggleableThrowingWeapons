@@ -25,6 +25,7 @@ namespace ToggleableThrowingWeapons.Component
 				if (dmgBonusStat != null)
                 {
 					ModifiableValueAttributeStat modifiableValueAttributeStat = Owner.Wielder.Stats.GetStat(dmgBonusStat.Value) as ModifiableValueAttributeStat;
+						
 					if (modifiableValueAttributeStat.Bonus >= weaponmodifiableValueAttributeStat.Bonus)
                     {
 						return;

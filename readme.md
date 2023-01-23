@@ -16,6 +16,10 @@ The item names don't change by mode. I'll get to this later.
 Thanks to Truinto for the AddFactOnlyParty code.
 
 #Changelog
+
+1.2.2: Fixed Rogue Finesse training working with thrown weapons. Turned out to be incredibly imba
+
+
 1.2.1: Fixed interaction with Way Of The Shooting Star, should fix interaction with other attack /dmg stat replacers in general. Mod thrown weapon STR damage effect no longer force-sets stat dmg multiplier to 100%
 
 1.2: Point Blank Master (and any other ranged-only paramaterized features added by mods) now apply to thrown daggers/starknives. Increased range to 30 feet. 

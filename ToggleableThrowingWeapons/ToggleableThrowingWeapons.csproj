@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\ILRepack.MSBuild.Task.2.0.13\build\ILRepack.MSBuild.Task.props" Condition="Exists('..\packages\ILRepack.MSBuild.Task.2.0.13\build\ILRepack.MSBuild.Task.props')" />
   <Import Project="..\packages\Aze.Publicise.MSBuild.Task.1.1.0\build\Aze.Publicise.MSBuild.Task.props" Condition="Exists('..\packages\Aze.Publicise.MSBuild.Task.1.1.0\build\Aze.Publicise.MSBuild.Task.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -30,16 +31,36 @@
   <PropertyGroup>
     <WrathPath Condition=" '$(WrathPath)' == '' ">C:\Program Files (x86)\Steam\steamapps\common\Pathfinder Second Adventure</WrathPath>
   </PropertyGroup>
-  <Target Name="Publicise" AfterTargets="Clean">
+  <ItemGroup>
+    <PackageReference Include="AssemblyPublicizer">
+      <Version>1.0.2</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.7.7" />
+  </ItemGroup>
+  <!-- DLL Merging -->
+  <Target Name="ILRepack" AfterTargets="Build">
     <ItemGroup>
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\Assembly-CSharp.dll" />
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\Owlcat.Runtime.Core.dll" />
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\Owlcat.Runtime.Visual.dll" />
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\Owlcat.Runtime.UI.dll" />
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\UnityEngine.dll" />
-      <PubliciseInputAssemblies Include="$(WrathPath)\Wrath_Data\Managed\UnityEngine.CoreModule.dll" />
+      <InputAssemblies Include="BlueprintCore.dll" />
+      <InputAssemblies Include="ToggleableThrowingWeapons.dll" />
+      <OutputAssembly Include="ToggleableThrowingWeapons.dll" />
     </ItemGroup>
-    <Publicise InputAssemblies="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)lib/" PubliciseCompilerGenerated="true" />
+    <Message Text="Merging: @(InputAssemblies) into @(OutputAssembly)" Importance="High" />
+    <ILRepack OutputType="Dll" MainAssembly="ToggleableThrowingWeapons.dll" OutputAssembly="@(OutputAssembly)" InputAssemblies="@(InputAssemblies)" WorkingDirectory="$(OutputPath)" />
+  </Target>
+  <!-- Publicize Target -->
+  <Target Name="Publicize" AfterTargets="Clean">
+    <ItemGroup>
+      <Assemblies Include="$(WrathPath)\Wrath_Data\Managed\Assembly-CSharp.dll" />
+      <PublicAssembly Include="$(SolutionDir)\lib\Assembly-CSharp_public.dll" />
+      <RenamedAssembly Include="$(SolutionDir)\lib\Assembly-CSharp.dll" />
+    </ItemGroup>
+    <Message Text="Publicizing: @(PublicAssembly) into @(RenamedAssembly)" Importance="High" />
+    <PublicizeTask InputAssemblies="@(Assemblies)" OutputDir="$(SolutionDir)lib/" />
+    <Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />
+    <Move SourceFiles="$(SolutionDir)\lib\Assembly-CSharp_public.hash" DestinationFiles="$(SolutionDir)\lib\Assembly-CSharp.hash" />
   </Target>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,38 +72,35 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lib.Harmony.2.2.1\lib\net472\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.2.2.2\lib\net472\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp_public">
-      <HintPath>..\lib\Assembly-CSharp_public.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BlueprintCore, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WW-Blueprint-Core.2.0.4\lib\net472\BlueprintCore.dll</HintPath>
+    <Reference Include="BlueprintCore, Version=2.7.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WW-Blueprint-Core.2.7.7\lib\net472\BlueprintCore.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="ModKit, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ModKit.1.0.8\lib\net472\ModKit.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Owlcat.Runtime.Core_public">
-      <HintPath>..\lib\Owlcat.Runtime.Core_public.dll</HintPath>
-    </Reference>
-    <Reference Include="Owlcat.Runtime.UI_public">
-      <HintPath>..\lib\Owlcat.Runtime.UI_public.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owlcat.Runtime.Validation">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Pathfinder Second Adventure\Wrath_Data\Managed\Owlcat.Runtime.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="Owlcat.Runtime.Visual_public">
-      <HintPath>..\lib\Owlcat.Runtime.Visual_public.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -113,6 +131,7 @@
     <Compile Include="Build.cs" />
     <Compile Include="Component\AddFactOnlyParty.cs" />
     <Compile Include="Component\EnableThrownMode.cs" />
+    <Compile Include="Component\ImprovedWeaponTypeDamageStatReplacement.cs" />
     <Compile Include="Component\ThrownCrossrefComponent.cs" />
     <Compile Include="Component\ThrownCrossrefTypeComponent.cs" />
     <Compile Include="Component\ThrownOnlyStrToDamage.cs" />
@@ -132,21 +151,43 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="Config\Blueprints.json" />
+    <EmbeddedResource Include="Config\Settings.json" />
     <None Include="BlueprintCore\changes.md" />
     <None Include="BlueprintCore\LICENSE" />
     <None Include="BlueprintCore\README.md" />
-    <EmbeddedResource Include="Config\Blueprints.json" />
-    <EmbeddedResource Include="Config\Settings.json" />
     <None Include="Info.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>(robocopy "C:\Users\Alex Walters\source\repos\ToggleableThrowingWeapons\ToggleableThrowingWeapons\bin\Debug" "%25WrathPath%25\Mods\ToggleableThrowingWeapons\ " /s /e )^&amp; IF %25ERRORLEVEL%25 LEQ 1 exit 0</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="Deploy" AfterTargets="Build">
+    <ItemGroup>
+      <Assembly Include="$(OutputPath)\ToggleableThrowingWeapons.dll" />
+      <ModConfig Include="$(OutputPath)\Info.json" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
+    <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(WrathPath)\Mods\$(MSBuildProjectName)" />
+  </Target>
+  <!-- Automatically creates a release zip -->
+  <Target Name="ZipRelease" AfterTargets="ILRepack" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <Assembly Include="$(OutputPath)\$(AssemblyName).dll" />
+      <ModConfig Include="$(OutputPath)\Info.json" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
+    <Copy SourceFiles="@(ModConfig)" DestinationFolder="$(OutputPath)\$(AssemblyName)" />
+    <Message Text="Copying zip  to $(OutputPath)\$(AssemblyName).zip" Importance="High" />
+    <ZipDirectory SourceDirectory="$(OutputPath)\$(AssemblyName)" DestinationFile="C:\ModReleaseCandidates\$(AssemblyName).zip" Overwrite="true" />
+  </Target>
   <ItemGroup>
     <Folder Include="Content\PairCreation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ILRepack.MSBuild.Task.2.0.13\build\ILRepack.MSBuild.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILRepack.MSBuild.Task.2.0.13\build\ILRepack.MSBuild.Task.props'))" />
+  </Target>
 </Project>

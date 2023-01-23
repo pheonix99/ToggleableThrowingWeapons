@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToggleableThrowingWeapons.Component;
 using ToggleableThrowingWeapons.Content;
 using UnityModManagerNet;
 
@@ -57,10 +58,11 @@ namespace ToggleableThrowingWeapons
                 if (UnityModManager.FindMod("ThrownDaggers") != null)
                 {
                     MatchHambeardWeapons.MatchAll();
+                    
                 }
                 try
                 {
-                    
+                    DeployMeleeWeaponTypeDamageStatReplacement.Do();
                 }
                 catch (Exception e)
                 {

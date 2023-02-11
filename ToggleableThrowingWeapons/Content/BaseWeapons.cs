@@ -47,7 +47,9 @@ namespace ToggleableThrowingWeapons.Content
                 x.Multiplier = 1;
             }).Configure();
 
-            var throwingStar = Helpers.CreateCopy<BlueprintWeaponType>(BlueprintTool.Get<BlueprintWeaponType>("Starknife"), x =>
+
+            var ogstarknife = BlueprintTool.Get<BlueprintWeaponType>("Starknife");
+            var throwingStar = Helpers.CreateCopy<BlueprintWeaponType>(ogstarknife, x =>
             {
                 x.AssetGuid = ThrownStarknifeGuid;
                 x.name = "ThrownStarknife";
@@ -58,10 +60,11 @@ namespace ToggleableThrowingWeapons.Content
                 {
                     m_Projectiles = Dart.VisualParameters.Projectiles,
                     m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.ThrownStraight,
-                    m_WeaponModel = new Kingmaker.ResourceLinks.PrefabLink() { AssetId = "6edd1e90-2239-3ef4-98f1ccb0e606a6a6" },
-
-                    m_WeaponBeltModelOverride = new Kingmaker.ResourceLinks.PrefabLink(),
-                    m_WeaponSheathModelOverride = new Kingmaker.ResourceLinks.PrefabLink(),
+                    m_WeaponModel = ogstarknife.m_VisualParameters.m_WeaponModel,
+                    m_WeaponBeltModelOverride = ogstarknife.m_VisualParameters.m_WeaponBeltModelOverride,
+                    m_WeaponSheathModelOverride = ogstarknife.m_VisualParameters.m_WeaponSheathModelOverride,
+                    //m_WeaponBeltModelOverride = new Kingmaker.ResourceLinks.PrefabLink(),
+                    // m_WeaponSheathModelOverride = new Kingmaker.ResourceLinks.PrefabLink(),
                     m_OverrideAttachSlots = true,
                     m_PossibleAttachSlots = new Kingmaker.View.Equipment.UnitEquipmentVisualSlotType[]
                     {
@@ -101,10 +104,10 @@ namespace ToggleableThrowingWeapons.Content
             }
             Main.TTWContext.Logger.Log($"About To Add Strength (thrown) to starknife");
 
-           
+
             WeaponTypeConfigurator.For("5a939137fc039084580725b2b0845c3f").AddToEnchantments("c4d213911e9616949937e1520c80aaf3").Configure();
 
-            
+
 
             if (Main.TTWContext.Settings.Hotswapping.IsEnabled("EnableHotswapping"))
             {
@@ -114,15 +117,15 @@ namespace ToggleableThrowingWeapons.Content
                     x.m_OtherForm = BlueprintTool.GetRef<BlueprintWeaponTypeReference>("ThrownStarknife");
                 });
 
-                
+
             }
-            
+
             Main.TTWContext.Blueprints.GetDerivedMaster("ThrownStarknifeMasterId");
             Main.TTWContext.Logger.LogPatch(thrownStarknifeConfig);
 
 
-
-            var thrownDaggers = Helpers.CreateCopy<BlueprintWeaponType>(BlueprintTool.Get<BlueprintWeaponType>("Dagger"), x =>
+            var ogdagger = BlueprintTool.Get<BlueprintWeaponType>("Dagger");
+            var thrownDaggers = Helpers.CreateCopy<BlueprintWeaponType>(ogdagger, x =>
             {
                 x.name = "TTWThrownDagger";
                 x.AssetGuid = ThrownDaggerGuid;
@@ -132,8 +135,9 @@ namespace ToggleableThrowingWeapons.Content
                 {
                     m_Projectiles = Dart.VisualParameters.Projectiles,
                     m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.ThrownStraight,
-                    m_WeaponModel = new PrefabLink() { AssetId = "8a068458-1898-ee64-2aa771427d77f9ab" },
-                    m_WeaponSheathModelOverride = new PrefabLink() { AssetId = "544192df-823e-cd74-6a0fae1c1af7de16" },
+                    m_WeaponModel  =ogdagger.m_VisualParameters.m_WeaponModel,
+                    m_WeaponSheathModelOverride = ogdagger.m_VisualParameters.m_WeaponSheathModelOverride,
+                    m_WeaponBeltModelOverride = ogdagger.m_VisualParameters.m_WeaponBeltModelOverride,
                     m_SoundSize = Kingmaker.Visual.Sound.WeaponSoundSizeType.Small,
                     m_SoundType = Kingmaker.Visual.Sound.WeaponSoundType.PierceMetal,
                     m_WhooshSound = "KnifeWoosh",
@@ -171,8 +175,8 @@ namespace ToggleableThrowingWeapons.Content
 
             Main.TTWContext.Blueprints.GetDerivedMaster("DaggerMasterId");
             Main.TTWContext.Blueprints.GetDerivedMaster("ThrownDaggerMasterId");
-
-            var thrownDLC2Daggers = Helpers.CreateCopy<BlueprintWeaponType>(BlueprintTool.Get<BlueprintWeaponType>("DLC2Dagger"), x =>
+            var ogDLC2 = BlueprintTool.Get<BlueprintWeaponType>("DLC2Dagger");
+            var thrownDLC2Daggers = Helpers.CreateCopy<BlueprintWeaponType>( ogDLC2, x =>
             {
                 x.name = "TTWThrownDLC2Dagger";
                 
@@ -183,8 +187,9 @@ namespace ToggleableThrowingWeapons.Content
                 {
                     m_Projectiles = Dart.VisualParameters.Projectiles,
                     m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.ThrownStraight,
-                    m_WeaponModel = new PrefabLink() { AssetId = "c859a560-b553-8854-f8913486e29efc07" },
-                    m_WeaponSheathModelOverride = new PrefabLink() { AssetId = "3c601278-3bba-9b54-592eb941bd30702e" },
+                    m_WeaponModel = ogDLC2.m_VisualParameters.m_WeaponModel,
+                    m_WeaponSheathModelOverride = ogDLC2.m_VisualParameters.m_WeaponSheathModelOverride,
+                    m_WeaponBeltModelOverride = ogDLC2.m_VisualParameters.m_WeaponBeltModelOverride,
                     m_SoundSize = Kingmaker.Visual.Sound.WeaponSoundSizeType.Small,
                     m_SoundType = Kingmaker.Visual.Sound.WeaponSoundType.PierceMetal,
                     m_WhooshSound = "KnifeWoosh",

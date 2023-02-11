@@ -29,7 +29,7 @@ namespace ToggleableThrowingWeapons.Content
 
             var buffDesc = LocalizationTool.CreateString("ThrowWeaponsBuff.Desc", "Use Daggers And Starknives As Ranged Weapons");
             var buffconfig = BuffConfigurator.For(buffBP).SetDisplayName(LocalizationTool.CreateString("ThrowWeaponsBuff.Name", "Throw Weapons")).SetDescription(buffDesc).SetDescriptionShort(buffDesc);
-
+            
             buffconfig.AddComponent<EnableThrownMode>();
         
             buffconfig.SetIcon(BlueprintTool.Get<BlueprintWeaponType>("Dagger").Icon);

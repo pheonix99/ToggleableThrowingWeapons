@@ -17,6 +17,9 @@ Thanks to Truinto for the AddFactOnlyParty code.
 
 #Changelog
 
+
+1.2.3: Hopefully fixed graphical jank for the last time
+
 1.2.2: Fixed Rogue Finesse training working with thrown weapons. Turned out to be incredibly imba
 
 

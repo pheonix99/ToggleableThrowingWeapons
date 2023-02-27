@@ -17,6 +17,7 @@ Thanks to Truinto for the AddFactOnlyParty code.
 
 # Changelog
 
+1.2.4: Works with the 2.1 Beta
 
 1.2.3: Hopefully fixed graphical jank for the last time
 

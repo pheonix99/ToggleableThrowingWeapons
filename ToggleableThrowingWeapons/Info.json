@@ -2,7 +2,7 @@
   "Id": "ToggleableThrowingWeapons",
   "DisplayName": "Toggleable Throwing Weapons",
   "Author": "pheonix99",
-  "Version": "1.2.3",
+  "Version": "1.2.4,
   "ManagerVersion": "0.21.3",
   "AssemblyName": "ToggleableThrowingWeapons.dll",
   "EntryMethod": "ToggleableThrowingWeapons.Main.Load",

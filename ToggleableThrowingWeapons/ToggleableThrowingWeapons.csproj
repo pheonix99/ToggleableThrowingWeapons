@@ -28,9 +28,6 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup>
-    <WrathPath Condition=" '$(WrathPath)' == '' ">C:\Program Files (x86)\Steam\steamapps\common\Pathfinder Second Adventure</WrathPath>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AssemblyPublicizer">
       <Version>1.0.2</Version>
@@ -38,7 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13" />
-    <PackageReference Include="WW-Blueprint-Core" Version="2.7.7" />
+    <PackageReference Include="WW-Blueprint-Core" Version="2.7.8" />
   </ItemGroup>
   <!-- DLL Merging -->
   <Target Name="ILRepack" AfterTargets="Build">
@@ -60,7 +57,6 @@
     <Message Text="Publicizing: @(PublicAssembly) into @(RenamedAssembly)" Importance="High" />
     <PublicizeTask InputAssemblies="@(Assemblies)" OutputDir="$(SolutionDir)lib/" />
     <Move SourceFiles="@(PublicAssembly)" DestinationFiles="@(RenamedAssembly)" />
-    <Move SourceFiles="$(SolutionDir)\lib\Assembly-CSharp_public.hash" DestinationFiles="$(SolutionDir)\lib\Assembly-CSharp.hash" />
   </Target>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -77,9 +73,6 @@
     </Reference>
     <Reference Include="Assembly-CSharp_public">
       <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BlueprintCore, Version=2.7.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WW-Blueprint-Core.2.7.7\lib\net472\BlueprintCore.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="ModKit, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">

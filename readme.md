@@ -21,6 +21,9 @@ Thanks to ifarmpandas for figuring out the fix for AttackStatReplacement bugs
 
 # Changelog
 
+
+1.3.1: Works with 2.2
+
 1.3.0: Fixed compatibility with Morvarch's Playstyle expansions - thanks ifarmpandas
 
 1.2.4: Works with the 2.1
